@@ -9,12 +9,22 @@
 import UIKit
 
 class WheelView: UIView {
+
     var wheelCenterPoint: CGPoint!
     var tireRadius: CGFloat!
     
     var wheelRadius: CGFloat {
         get {
             return tireRadius - tireWidth
+        }
+    }
+    
+    var wheelSize: Int = 16 {
+        didSet {
+            if wheelSize < 16 || wheelSize > 20 {
+                wheelSize = oldValue
+            }
+            setNeedsDisplay()
         }
     }
     
@@ -32,17 +42,12 @@ class WheelView: UIView {
             setNeedsDisplay()
         }
     }
-    
-    var wheelSize: Int = 16 {
+
+    var hasCrossSpokes: Bool = false {
         didSet {
-            if wheelSize < 16 || wheelSize > 20 {
-                wheelSize = oldValue
-            }
             setNeedsDisplay()
         }
     }
-    
-    var hasCrossSpokes: Bool = false
     
     let wheelColorChoices: [UIColor] = [
         UIColor.lightGrayColor(),
@@ -75,75 +80,72 @@ class WheelView: UIView {
     
     override func drawRect(rect: CGRect) {
         // First, we'll draw the tire
-        let tirePath = UIBezierPath(
-            arcCenter: wheelCenterPoint,
-            radius: tireRadius,
-            startAngle: 0,
-            endAngle: CGFloat(2 * M_PI),
-            clockwise: true
-        )
-
-        tirePath.lineWidth = tireWidth
-        tirePath.stroke()
+        drawCircle(tireRadius, circleWidth: tireWidth, circleColor: UIColor.blackColor(), isFilled: false, hasSpokes: false)
         
         // Second, we'll draw the rim of the wheel
-        let wheelPath = UIBezierPath(
+        drawCircle(wheelRadius, circleWidth: 10, circleColor: wheelColor, isFilled: false, hasSpokes: true)
+
+        // Finally, we'll draw the hub of the wheel
+        drawCircle(wheelRadius / 3, circleWidth: 0, circleColor: wheelColor, isFilled: true, hasSpokes: false)
+    }
+    
+    func drawCircle(radius: CGFloat, circleWidth: CGFloat, circleColor: UIColor, isFilled: Bool, hasSpokes: Bool) {
+        let circlePath = UIBezierPath(
             arcCenter: wheelCenterPoint,
-            radius: wheelRadius,
+            radius: radius,
             startAngle: 0,
             endAngle: CGFloat(2 * M_PI),
             clockwise: true
         )
         
-        let wheelStrokeColor = wheelColor
-        wheelStrokeColor.setStroke()
-        
-        wheelPath.lineWidth = 10
-        wheelPath.stroke()
-        
-        // Third, we'll draw the spokes
+        if isFilled == true {
+            let circleFillColor = circleColor
+            circleFillColor.setFill()
+            
+            circlePath.fill()
+            circlePath.closePath()
+        } else {
+            let circleStrokeColor = circleColor
+            circleStrokeColor.setStroke()
+            
+            circlePath.lineWidth = circleWidth
+            circlePath.stroke()
+            
+            if hasSpokes == true {
+                drawCircleSpokes(circlePath, numberOfSpokes: numberOfSpokes, hasCrossSpokes: hasCrossSpokes, centerPoint: wheelCenterPoint, radius: radius)
+            }
+            
+            circlePath.closePath()
+        }
+    }
+    
+    func drawCircleSpokes(path: UIBezierPath, numberOfSpokes: Int, hasCrossSpokes: Bool, centerPoint: CGPoint, radius: CGFloat) {
         if hasCrossSpokes == false {
             for n in 0..<numberOfSpokes {
-                wheelPath.moveToPoint(wheelCenterPoint)
+                path.moveToPoint(centerPoint)
                 
                 // I used M_PI_2 because I wanted the first spoke to be drawn at 90 degrees,
                 // but it looks like it's getting drawn at 270 degrees instead.
-                wheelPath.addLineToPoint(CGPoint(
-                    x: Double(wheelCenterPoint.x) + Double(wheelRadius) * cos(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes))),
-                    y: Double(wheelCenterPoint.y) + Double(wheelRadius) * sin(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes)))
+                path.addLineToPoint(CGPoint(
+                    x: Double(centerPoint.x) + Double(radius) * cos(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes))),
+                    y: Double(centerPoint.y) + Double(radius) * sin(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes)))
                     ))
                 
-                wheelPath.stroke()
+                path.stroke()
             }
         } else {
-            // Do the same exact thing until I can figure out how to draw cross spokes
+            // Do the same exact thing until I can figure out how to draw cross spokes...
             
             for n in 0..<numberOfSpokes {
-                wheelPath.moveToPoint(wheelCenterPoint)
-
-                wheelPath.addLineToPoint(CGPoint(
+                path.moveToPoint(wheelCenterPoint)
+                
+                path.addLineToPoint(CGPoint(
                     x: Double(wheelCenterPoint.x) + Double(wheelRadius) * cos(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes))),
                     y: Double(wheelCenterPoint.y) + Double(wheelRadius) * sin(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes)))
                     ))
                 
-                wheelPath.stroke()
+                path.stroke()
             }
         }
-
-        
-        // Finally, we'll draw the hub of the wheel
-        let hubPath = UIBezierPath(
-            arcCenter: wheelCenterPoint,
-            radius: wheelRadius / 3,
-            startAngle: 0,
-            endAngle: CGFloat(2 * M_PI),
-            clockwise: true
-        )
-        
-        let hubFillColor = wheelColor
-        hubFillColor.setFill()
-        
-        hubPath.fill()
-        hubPath.closePath()
     }
 }
