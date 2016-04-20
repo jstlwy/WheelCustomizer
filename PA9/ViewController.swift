@@ -16,19 +16,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var spokeNumberLabel: UILabel!
 
     @IBOutlet weak var theClock: ClockView!
-    var clockTimer: NSTimer!
+    var clockTouch: UIGestureRecognizer!
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        
+        clockTouch = UITapGestureRecognizer(target: self, action: "userTouchedClock:")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        clockTimer = NSTimer.scheduledTimerWithTimeInterval(
-            1.0,
-            target: self,
-            selector: Selector("oneSecondPassed:"),
-            userInfo: nil,
-            repeats: true
-        )
+        theClock.addGestureRecognizer(clockTouch)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -55,7 +55,7 @@ class ViewController: UIViewController {
         theWheel.wheelColor = theWheel.wheelColorChoices[sender.selectedSegmentIndex]
     }
     
-    func oneSecondPassed(timer: NSTimer) {
-        theClock.incrementByOneSecond()
+    func userTouchedClock(recognizer: UITapGestureRecognizer) {
+        theClock.hitTimerPauseButton()
     }
 }
