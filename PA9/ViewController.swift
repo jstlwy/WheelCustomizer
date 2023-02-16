@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         
-        clockTouch = UITapGestureRecognizer(target: self, action: "userTouchedClock:")
+        clockTouch = UITapGestureRecognizer(target: self, action: #selector(ViewController.userTouchedClock(_:)))
     }
     
     override func viewDidLoad() {
@@ -35,27 +35,27 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func userChangedWheelSize(sender: UISlider) {
+    @IBAction func userChangedWheelSize(_ sender: UISlider) {
         wheelSizeSlider.value = round(sender.value)
         theWheel.wheelSize = Int(wheelSizeSlider.value)
         wheelSizeLabel.text = "Wheel size: \(Int(wheelSizeSlider.value))\""
     }
 
-    @IBAction func userChangedNumberOfSpokes(sender: UISlider) {
+    @IBAction func userChangedNumberOfSpokes(_ sender: UISlider) {
         spokeNumberSlider.value = round(sender.value)
         theWheel.numberOfSpokes = Int(spokeNumberSlider.value)
         spokeNumberLabel.text = "Number of spokes: \(Int(spokeNumberSlider.value))"
     }
     
-    @IBAction func userChoseCrossSpokes(sender: UISwitch) {
+    @IBAction func userChoseCrossSpokes(_ sender: UISwitch) {
         theWheel.hasCrossSpokes = !(theWheel.hasCrossSpokes)
     }
     
-    @IBAction func userChangedWheelColor(sender: UISegmentedControl) {
+    @IBAction func userChangedWheelColor(_ sender: UISegmentedControl) {
         theWheel.wheelColor = theWheel.wheelColorChoices[sender.selectedSegmentIndex]
     }
     
-    func userTouchedClock(recognizer: UITapGestureRecognizer) {
+    @objc func userTouchedClock(_ recognizer: UITapGestureRecognizer) {
         theClock.hitTimerPauseButton()
     }
 }

@@ -61,7 +61,7 @@ class WheelView: UIView {
         // White color:
         UIColor(red: (235/255), green: (235/255), blue: (235/255), alpha: 1.0),
         // Black color:
-        UIColor.blackColor(),
+UIColor.black,
         // Bronze color:
         UIColor(red: (175/255), green: (130/255), blue: (95/255), alpha: 1.0),
         // Gunmetal color:
@@ -93,23 +93,23 @@ class WheelView: UIView {
         wheelColor = wheelColorChoices[0]
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         // Draw the tire
-        drawCircle(wheelCenterPoint, radius: tireRadius, borderWidth: tireWidth, borderColor: tireColor, innerColor: UIColor.clearColor(), numberOfSpokes: 0)
+        drawCircle(wheelCenterPoint, radius: tireRadius, borderWidth: tireWidth, borderColor: tireColor, innerColor: UIColor.clear, numberOfSpokes: 0)
         
         // Draw the outer rim of the wheel and its spokes
-        drawCircle(wheelCenterPoint, radius: wheelRadius, borderWidth: 10, borderColor: wheelColor, innerColor: UIColor.clearColor(), numberOfSpokes: self.numberOfSpokes)
+        drawCircle(wheelCenterPoint, radius: wheelRadius, borderWidth: 10, borderColor: wheelColor, innerColor: UIColor.clear, numberOfSpokes: self.numberOfSpokes)
 
         // Draw the wheel hub
         drawCircle(wheelCenterPoint, radius: hubRadius, borderWidth: 0, borderColor: wheelColor, innerColor: wheelColor, numberOfSpokes: 0)
     }
     
-    func drawCircle(centerPoint: CGPoint, radius: CGFloat, borderWidth: CGFloat, borderColor: UIColor, innerColor: UIColor, numberOfSpokes: Int) {
+    func drawCircle(_ centerPoint: CGPoint, radius: CGFloat, borderWidth: CGFloat, borderColor: UIColor, innerColor: UIColor, numberOfSpokes: Int) {
         let circlePath = UIBezierPath(
             arcCenter: centerPoint,
             radius: radius,
             startAngle: 0,
-            endAngle: CGFloat(2 * M_PI),
+            endAngle: 2 * CGFloat.pi,
             clockwise: true
         )
         
@@ -127,19 +127,19 @@ class WheelView: UIView {
             drawCircleSpokes(circlePath, numberOfSpokes: numberOfSpokes, hasCrossSpokes: hasCrossSpokes, centerPoint: wheelCenterPoint, radius: radius)
         }
         
-        circlePath.closePath()
+        circlePath.close()
     }
     
-    func drawCircleSpokes(path: UIBezierPath, numberOfSpokes: Int, hasCrossSpokes: Bool, centerPoint: CGPoint, radius: CGFloat) {
+    func drawCircleSpokes(_ path: UIBezierPath, numberOfSpokes: Int, hasCrossSpokes: Bool, centerPoint: CGPoint, radius: CGFloat) {
         if hasCrossSpokes == false {
             for n in 0..<numberOfSpokes {
-                path.moveToPoint(centerPoint)
+                path.move(to: centerPoint)
                 
                 // I used M_PI_2 because I wanted the first spoke to be drawn at 90 degrees,
                 // but it looks like it's getting drawn at 270 degrees instead.
-                path.addLineToPoint(CGPoint(
-                    x: Double(centerPoint.x) + Double(radius) * cos(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes))),
-                    y: Double(centerPoint.y) + Double(radius) * sin(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes)))
+                path.addLine(to: CGPoint(
+                    x: Double(centerPoint.x) + Double(radius) * cos((Double.pi/2) + (Double(n) * 2 * Double.pi / Double(numberOfSpokes))),
+                    y: Double(centerPoint.y) + Double(radius) * sin((Double.pi/2) + (Double(n) * 2 * Double.pi / Double(numberOfSpokes)))
                     ))
                 
                 path.stroke()
@@ -148,11 +148,11 @@ class WheelView: UIView {
             // Do the same as above until I can figure out how to draw cross spokes
             
             for n in 0..<numberOfSpokes {
-                path.moveToPoint(centerPoint)
+                path.move(to: centerPoint)
                 
-                path.addLineToPoint(CGPoint(
-                    x: Double(centerPoint.x) + Double(radius) * cos(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes))),
-                    y: Double(centerPoint.y) + Double(radius) * sin(M_PI_2 + (Double(n) * 2 * M_PI / Double(numberOfSpokes)))
+                path.addLine(to: CGPoint(
+                    x: Double(centerPoint.x) + Double(radius) * cos((Double.pi/2) + (Double(n) * 2 * Double.pi / Double(numberOfSpokes))),
+                    y: Double(centerPoint.y) + Double(radius) * sin((Double.pi/2) + (Double(n) * 2 * Double.pi / Double(numberOfSpokes)))
                     ))
                 
                 path.stroke()
