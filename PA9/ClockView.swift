@@ -35,6 +35,10 @@ class ClockView: UIView {
     let secondHandColor: UIColor = UIColor.red
     let minuteHandColor: UIColor = UIColor.green
     let hourHandColor: UIColor = UIColor.blue
+    
+    // Frequently reused math constants
+    let topPosRad: Double = Double.pi / 2
+    let fullRotRad: Double = 2 * Double.pi
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -75,17 +79,46 @@ class ClockView: UIView {
 
     override func draw(_ rect: CGRect) {
         // Draw the outside of the clock
-        drawCircle(clockCenterPoint, radius: clockRadius, borderWidth: clockBezelWidth, borderColor: clockBezelColor, innerColor: clockFaceColor)
+        drawCircle(
+            clockCenterPoint,
+            radius: clockRadius,
+            borderWidth: clockBezelWidth,
+            borderColor: clockBezelColor,
+            innerColor: clockFaceColor
+        )
         
         // Draw second hand
-        drawClockHand(seconds, handLength: clockRadius, handColor: secondHandColor, amountPerCircle: 60)
+        drawClockHand(
+            seconds,
+            handLength: clockRadius,
+            handColor: secondHandColor,
+            amountPerCircle: 60
+        )
+        
         // Draw minute hand
-        drawClockHand(minutes, handLength: minuteHandLength, handColor: minuteHandColor, amountPerCircle: 60)
+        drawClockHand(
+            minutes,
+            handLength: minuteHandLength,
+            handColor: minuteHandColor,
+            amountPerCircle: 60
+        )
+        
         // Draw hour hand
-        drawClockHand(hours, handLength: hourHandLength, handColor: hourHandColor, amountPerCircle: 12)
+        drawClockHand(
+            hours,
+            handLength: hourHandLength,
+            handColor: hourHandColor,
+            amountPerCircle: 12
+        )
         
         // Draw center hub of clock
-        drawCircle(clockCenterPoint, radius: clockRadius / 10, borderWidth: 0, borderColor: clockBezelColor, innerColor: clockBezelColor)
+        drawCircle(
+            clockCenterPoint,
+            radius: clockRadius / 10,
+            borderWidth: 0,
+            borderColor: clockBezelColor,
+            innerColor: clockBezelColor
+        )
     }
     
     func drawCircle(_ centerPoint: CGPoint, radius: CGFloat, borderWidth: CGFloat, borderColor: UIColor, innerColor: UIColor) {
@@ -112,17 +145,17 @@ class ClockView: UIView {
     
     func drawClockHand(_ timeInterval: Int, handLength: CGFloat, handColor: UIColor, amountPerCircle: Double) {
         let handPath = UIBezierPath()
-        
         handPath.move(to: clockCenterPoint)
         
+        let handPosRad = topPosRad + (fullRotRad * (Double(timeInterval) / amountPerCircle))
         handPath.addLine(to: CGPoint(
-            x: Double(clockCenterPoint.x) - Double(handLength) * cos((Double.pi/2) + (Double(timeInterval) * 2 * Double.pi / amountPerCircle)),
-            y: Double(clockCenterPoint.y) - Double(handLength) * sin((Double.pi/2) + (Double(timeInterval) * 2 * Double.pi / amountPerCircle))
-            ))
+                x: Double(clockCenterPoint.x) - (handLength * cos(handPosRad)),
+                y: Double(clockCenterPoint.y) - (handLength * sin(handPosRad))
+            )
+        )
 
         handPath.lineWidth = clockBezelWidth
         handColor.setStroke()
-        
         handPath.stroke()
         handPath.close()
     }
@@ -139,7 +172,6 @@ class ClockView: UIView {
                 repeats: true
             )
         }
-        
         clockTimerIsPaused = !clockTimerIsPaused
     }
 }

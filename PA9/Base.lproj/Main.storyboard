@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -29,7 +26,7 @@
                                 </connections>
                             </slider>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PhQ-di-8N1" customClass="WheelView" customModule="PA9" customModuleProvider="target">
-                                <rect key="frame" x="87.5" y="57" width="200" height="200"/>
+                                <rect key="frame" x="87.5" y="37" width="200" height="220"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="5" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="z2D-Le-EUx">
@@ -44,7 +41,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="i4u-LX-8Jv"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of spokes: 5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ujd-nc-ET6">
@@ -56,7 +53,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="x0f-Xw-kPQ">
-                                <rect key="frame" x="18" y="438" width="339" height="29"/>
+                                <rect key="frame" x="18" y="438" width="339" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="339" id="KQA-Kk-GSl"/>
                                 </constraints>
@@ -73,7 +70,7 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wheel color" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Gw-2D-kfy">
-                                <rect key="frame" x="124" y="474" width="127" height="21"/>
+                                <rect key="frame" x="124" y="477" width="127" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="127" id="2UY-kN-AKc"/>
                                     <constraint firstAttribute="height" constant="21" id="Hdt-bH-vAT"/>
@@ -97,7 +94,7 @@
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wheel Customizer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTB-wW-pdQ">
-                                <rect key="frame" x="87.5" y="28" width="200" height="21"/>
+                                <rect key="frame" x="87.5" y="8" width="200" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="VDq-du-01j"/>
                                     <constraint firstAttribute="width" constant="200" id="aFL-fc-nfn"/>
@@ -106,7 +103,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p6u-YZ-u97" customClass="ClockView" customModule="PA9" customModuleProvider="target">
-                                <rect key="frame" x="263" y="503" width="75" height="75"/>
+                                <rect key="frame" x="150" y="572" width="75" height="75"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
